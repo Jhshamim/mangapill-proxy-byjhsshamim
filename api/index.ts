@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -33,7 +32,9 @@ app.get("/api/proxy", async (req, res) => {
       res.setHeader("Content-Type", contentType);
     }
 
-    // Stream the response body to the client
+    // Set cache control for better performance
+    res.setHeader("Cache-Control", "public, max-age=86400");
+
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
     res.send(buffer);
@@ -43,32 +44,19 @@ app.get("/api/proxy", async (req, res) => {
   }
 });
 
-async function startServer() {
+// Development only: Vite middleware and listener
+if (process.env.NODE_ENV !== "production") {
+  const { createServer: createViteServer } = await import("vite");
+  const vite = await createViteServer({
+    server: { middlewareMode: true },
+    appType: "spa",
+  });
+  app.use(vite.middlewares);
+  
   const PORT = 3000;
-
-  // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    // Serve static files in production
-    app.use(express.static(path.join(__dirname, "..", "dist")));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
-    });
-  }
-
-  // Only listen if not running as a serverless function
-  if (process.env.NODE_ENV !== "production" || !process.env.VERCEL) {
-    app.listen(PORT, "0.0.0.0", () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
-  }
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 }
-
-startServer();
 
 export default app;

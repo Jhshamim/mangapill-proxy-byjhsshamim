@@ -3,5 +3,5 @@
   https://developers.cloudflare.com/pages/platform/redirects/
 */
 
-/api/* /api/%1 200
 /* /index.html 200
+

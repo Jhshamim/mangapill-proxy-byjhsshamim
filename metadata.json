@@ -1,5 +1,5 @@
 {
-  "name": "Image Proxy Server",
-  "description": "A Node.js image proxy to bypass hotlinking protection for specific domains.",
+  "name": "Universal Image Proxy",
+  "description": "A high-performance image proxy compatible with Vercel and Cloudflare Pages. Bypasses hotlinking protection for manga and comic CDNs.",
   "requestFramePermissions": []
 }

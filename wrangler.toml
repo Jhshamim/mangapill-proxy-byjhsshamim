@@ -1,0 +1,6 @@
+name = "image-proxy"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-02-24"
+
+# Configuration for Cloudflare Pages
+# This file allows you to manage your Pages project from the CLI

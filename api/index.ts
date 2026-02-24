@@ -34,6 +34,7 @@ app.get("/api/proxy", async (req, res) => {
 
     // Set cache control for better performance
     res.setHeader("Cache-Control", "public, max-age=86400");
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);

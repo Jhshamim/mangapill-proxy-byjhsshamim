@@ -1,0 +1,5 @@
+{
+  "name": "Image Proxy Server",
+  "description": "A Node.js image proxy to bypass hotlinking protection for specific domains.",
+  "requestFramePermissions": []
+}
